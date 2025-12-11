@@ -5,6 +5,8 @@ TagManager:
   serializedVersion: 3
   tags:
   - Collectible
+  - Enemy
+  - Damageable
   layers:
   - Default
   - TransparentFX
@@ -47,6 +49,9 @@ TagManager:
     locked: 0
   - name: Collectibles
     uniqueID: 1305392849
+    locked: 0
+  - name: Decoration
+    uniqueID: 628780973
     locked: 0
   - name: Ruby
     uniqueID: 2383024753
