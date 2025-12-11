@@ -38,38 +38,31 @@ public class RubyHurtBlink : MonoBehaviour
             {
                 StartCoroutine(HandleInvincibilitySequence());
             }
+
+            if (DynamicMusic.instance != null)
+            {
+                DynamicMusic.instance.TriggerCombatMusic();
+            }
         }
     }
 
-    // This Coroutine manages the whole hurt sequence
     private IEnumerator HandleInvincibilitySequence()
     {
         isInvincible = true;
 
-        // 1. Play Sound immediately
         if (audioSource != null && hurtSound != null)
             audioSource.PlayOneShot(hurtSound);
 
-        // Calculate when the invincibility should end
         float endTime = Time.time + invincibilityDuration;
 
-        // 2. Start the blinking loop Loop until the current time passes the end time
         while (Time.time < endTime)
         {
-            // Turn sprite OFF
             spriteRend.enabled = false;
-            // Wait for half the interval
             yield return new WaitForSeconds(blinkInterval);
 
-            // Turn sprite ON
             spriteRend.enabled = true;
-            // Wait for the other half
             yield return new WaitForSeconds(blinkInterval);
         }
-
-        // --- Sequence Cleanup ---
-
-        // CRITICAL: Ensure the sprite is visible when the loop ends!
         spriteRend.enabled = true;
 
         isInvincible = false;
