@@ -16,7 +16,7 @@ GameObject:
   - component: {fileID: -5328006632219373613}
   m_Layer: 0
   m_Name: CollectibleHealth_0
-  m_TagString: Collectible
+  m_TagString: Health
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -108,6 +108,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::Collectible
   collectibleEffect: {fileID: 0}
   pickupSound: {fileID: 8300000, guid: 3d38cb904ce8f4b25aaaf1f8436b1ec3, type: 3}
+  floatSpeed: 2
+  floatHeight: 0.5
 --- !u!58 &9011564268045279486
 CircleCollider2D:
   m_ObjectHideFlags: 0

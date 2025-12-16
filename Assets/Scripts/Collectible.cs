@@ -36,6 +36,27 @@ public class Collectible : MonoBehaviour
             {
                 Instantiate(collectibleEffect, transform.position, Quaternion.identity);
             }
+
+            if (gameObject.CompareTag("Health"))
+            {
+                RubyMovement ruby = collision.GetComponent<RubyMovement>();
+                if (ruby != null && ruby.currentHealth < ruby.maxHealth)
+                {
+                    ruby.HealthChange(1);
+                    // ruby.SendMessage("HealthChange", 1);
+                }
+            }
+            
+            if (gameObject.CompareTag("Ammo"))
+            {
+                RubyMovement ruby = collision.GetComponent<RubyMovement>();
+                if (ruby != null && ruby.currentAmmo < ruby.maxAmmo)
+                {
+                    ruby.AmmoChange(5);
+                    // ruby.SendMessage("AmmoChange", 5);
+                }
+            }
+
             Debug.Log("Player collected the item!");
             Destroy(gameObject);
         }

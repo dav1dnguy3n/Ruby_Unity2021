@@ -16,7 +16,7 @@ GameObject:
   - component: {fileID: 5040210848414717980}
   m_Layer: 0
   m_Name: CollectibleAmmo_0
-  m_TagString: Untagged
+  m_TagString: Ammo
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -241,6 +241,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::Collectible
   collectibleEffect: {fileID: 0}
   pickupSound: {fileID: 8300000, guid: 3d38cb904ce8f4b25aaaf1f8436b1ec3, type: 3}
+  floatSpeed: 2
+  floatHeight: 0.5
 --- !u!95 &5040210848414717980
 Animator:
   serializedVersion: 7

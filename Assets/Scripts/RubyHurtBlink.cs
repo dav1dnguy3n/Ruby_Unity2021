@@ -13,22 +13,27 @@ public class RubyHurtBlink : MonoBehaviour
     public AudioClip hurtSound;
     private AudioSource audioSource;
     private SpriteRenderer spriteRend;
+    private RubyMovement rubyMovement;
 
     // This flag tracks if the player is currently invincible
     private bool isInvincible = false;
+    private float nextDamageTime = 0f;
+
 
     void Start()
     {
         // Get components automatically
         audioSource = GetComponent<AudioSource>();
         spriteRend = GetComponent<SpriteRenderer>();
+        rubyMovement = GetComponent<RubyMovement>();
+
 
         // Basic error checking
         if (spriteRend == null) Debug.LogError("Player needs a SpriteRenderer component!");
     }
 
     // Detect collision with the enemy
-    private void OnCollisionEnter2D(Collision2D collision)
+    private void OnTriggerEnter2D(Collider2D collision)
     {
         // Check if the object we hit is tagged as "Enemy"
         if (collision.gameObject.CompareTag("Enemy") || collision.gameObject.CompareTag("Damageable"))
@@ -44,6 +49,33 @@ public class RubyHurtBlink : MonoBehaviour
                 DynamicMusic.instance.TriggerCombatMusic();
             }
         }
+    }
+
+    private void OnTriggerStay2D(Collider2D collision)
+    {
+        if (collision.gameObject.CompareTag("Enemy") || collision.gameObject.CompareTag("Damageable"))
+        {
+            // Chỉ gây damage nếu đã hết thời gian invincible và đủ thời gian damage interval
+            if (!isInvincible && Time.time >= nextDamageTime)
+            {
+                TakeDamage();
+            }
+        }
+    }
+
+    private void TakeDamage()
+    {
+        // Gọi hàm HealthChange để giảm máu
+        if (rubyMovement != null)
+        {
+            rubyMovement.HealthChange(-1);
+        }
+
+        // Set thời gian cho lần damage tiếp theo
+        nextDamageTime = Time.time + invincibilityDuration;
+
+        // Bắt đầu hiệu ứng blink và invincibility
+        StartCoroutine(HandleInvincibilitySequence());
     }
 
     private IEnumerator HandleInvincibilitySequence()
