@@ -32,11 +32,11 @@ public class RubyHurtBlink : MonoBehaviour
         if (spriteRend == null) Debug.LogError("Player needs a SpriteRenderer component!");
     }
 
-    // Detect collision with the enemy
-    private void OnTriggerEnter2D(Collider2D collision)
+    // Detect collision with enemies
+    private void OnCollisionEnter2D(Collision2D collision)
     {
         // Check if the object we hit is tagged as "Enemy"
-        if (collision.gameObject.CompareTag("Enemy") || collision.gameObject.CompareTag("Damageable"))
+        if (collision.gameObject.CompareTag("Enemy"))
         {
             // Only take damage if we are NOT currently invincible
             if (!isInvincible)
@@ -51,21 +51,60 @@ public class RubyHurtBlink : MonoBehaviour
         }
     }
 
-    private void OnTriggerStay2D(Collider2D collision)
+    // Detect collide with the damage zone
+    private void OnTriggerEnter2D(Collider2D collider)
     {
-        if (collision.gameObject.CompareTag("Enemy") || collision.gameObject.CompareTag("Damageable"))
+        // Check if the object we hit is tagged as "Enemy"
+        if (collider.gameObject.CompareTag("Damageable"))
+        {
+            // Only take damage if we are NOT currently invincible
+            if (!isInvincible)
+            {
+                StartCoroutine(HandleInvincibilitySequence());
+            }
+
+            if (DynamicMusic.instance != null)
+            {
+                DynamicMusic.instance.TriggerCombatMusic();
+            }
+        }
+    }
+
+    private void OnCollisionStay2D(Collision2D collision)
+    {
+        if (collision.gameObject.CompareTag("Enemy"))
+        {
+            if (!isInvincible && Time.time >= nextDamageTime)
+            {
+                TakeDamage();
+            }
+
+            if (DynamicMusic.instance != null)
+            {
+                DynamicMusic.instance.TriggerCombatMusic();
+            }
+        }
+    }
+
+    private void OnTriggerStay2D(Collider2D collider)
+    {
+        if (collider.gameObject.CompareTag("Damageable"))
         {
             // Chỉ gây damage nếu đã hết thời gian invincible và đủ thời gian damage interval
             if (!isInvincible && Time.time >= nextDamageTime)
             {
                 TakeDamage();
             }
+
+            if (DynamicMusic.instance != null)
+            {
+                DynamicMusic.instance.TriggerCombatMusic();
+            }
         }
     }
 
     private void TakeDamage()
     {
-        // Gọi hàm HealthChange để giảm máu
         if (rubyMovement != null)
         {
             rubyMovement.HealthChange(-1);

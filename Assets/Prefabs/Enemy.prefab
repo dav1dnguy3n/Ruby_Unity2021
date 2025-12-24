@@ -204,8 +204,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EnemyController
   speed: 5
-  isMovingVertically: 0
-  changeWayTime: 2
+  isMovingVertically: 1
+  changeWayTime: 1
 --- !u!82 &-7108996288229053053
 AudioSource:
   m_ObjectHideFlags: 0
